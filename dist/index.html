@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ByteBank - Seu banco digital</title>
+  <meta name="importmap-type" content="systemjs-importmap" />
+  
+  <!-- Import Map para os microfrontends -->
+  <script type="systemjs-importmap">
+    {
+      "imports": {
+        "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.5/lib/system/single-spa.min.js",
+        "react": "https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js",
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js",
+        "@bytebank/root-config": "//localhost:9000/bytebank-root-config.js",
+        "@bytebank/base": "//localhost:9001/bytebank-base.js",
+        "@bytebank/financeiro": "//localhost:9002/bytebank-financeiro.js",
+        "@bytebank/dashboard": "//localhost:9003/bytebank-dashboard.js"
+      }
+    }
+  </script>
+  
+  <!-- SystemJS -->
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js"></script>
+  
+  <!-- Preconnect Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #f5f5f5;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* ByteBank Design Tokens */
+    :root {
+      --bytebank-green: #47A138;
+      --bytebank-green-dark: #3a8a2e;
+      --bytebank-green-light: #59b449;
+      --bytebank-black: #000000;
+      --bytebank-gray: #CCCCCC;
+      --bytebank-gray-light: #e4e1e1;
+      --bytebank-gray-medium: #666666;
+    }
+    
+    /* Loading State */
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+    }
+    
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      background: var(--bytebank-green);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      animation: pulse 2s infinite;
+    }
+    
+    .loading-logo span {
+      font-size: 40px;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .loading-text {
+      color: white;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar será montada pela aplicação global @bytebank/base -->
+  <nav id="navbar"></nav>
+  
+  <!-- Container principal para os microfrontends -->
+  <main id="single-spa-application:@bytebank/financeiro"></main>
+  <main id="single-spa-application:@bytebank/dashboard"></main>
+  
+  <!-- Loading State -->
+  <div id="loading" class="loading-container">
+    <div class="loading-logo">
+      <span>B</span>
+    </div>
+    <p class="loading-text">Carregando ByteBank...</p>
+  </div>
+
+  <script>
+    System.import('@bytebank/root-config').then(() => {
+      document.getElementById('loading').style.display = 'none';
+    });
+  </script>
+</body>
+</html>
