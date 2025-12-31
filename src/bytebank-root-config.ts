@@ -1,24 +1,45 @@
-import { registerApplication, start, LifeCycles } from 'single-spa';
+import { registerApplication, start } from 'single-spa';
 
-// Registra a aplicação global (navbar, componentes compartilhados)
+console.log('🟢 Root Config - Inicializando...');
+
+// Função para verificar se está na Home (apenas rota raiz exata)
+function isHomeActive(location: Location): boolean {
+  return location.pathname === '/';
+}
+
+// Função para verificar se está na rota do dashboard
+function isDashboardActive(location: Location): boolean {
+  const path = location.pathname;
+  return path === '/dashboard' || path.startsWith('/dashboard/');
+}
+
+// Função para verificar se está na rota do financeiro
+function isFinanceiroActive(location: Location): boolean {
+  const path = location.pathname;
+  return path === '/financeiro' || path.startsWith('/financeiro/') ||
+         path === '/transacoes' || path.startsWith('/transacoes/') ||
+         path === '/extrato' || path.startsWith('/extrato/');
+}
+
+// Registra a aplicação global (navbar) - sempre ativa
 registerApplication({
   name: '@bytebank/base',
-  app: () => System.import('@bytebank/base') as Promise<LifeCycles>,
-  activeWhen: ['/'],
+  app: () => import('@bytebank/base'),
+  activeWhen: () => true,
 });
 
 // Registra o microfrontend financeiro
 registerApplication({
   name: '@bytebank/financeiro',
-  app: () => System.import('@bytebank/financeiro') as Promise<LifeCycles>,
-  activeWhen: ['/financeiro', '/transacoes', '/extrato'],
+  app: () => import('@bytebank/financeiro'),
+  activeWhen: isFinanceiroActive,
 });
 
 // Registra o microfrontend dashboard
 registerApplication({
   name: '@bytebank/dashboard',
-  app: () => System.import('@bytebank/dashboard') as Promise<LifeCycles>,
-  activeWhen: ['/dashboard', '/'],
+  app: () => import('@bytebank/dashboard'),
+  activeWhen: isDashboardActive,
 });
 
 // Inicia o Single SPA
@@ -27,3 +48,9 @@ start({
 });
 
 console.log('🏦 ByteBank Root Config carregado com sucesso!');
+
+// Esconder loading
+setTimeout(() => {
+  const loading = document.getElementById('loading');
+  if (loading) loading.style.display = 'none';
+}, 1000);
