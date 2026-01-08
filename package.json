@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bytebank/shared": "git+https://github.com/FIAP-Grupo-30/shared.git",
     "single-spa": "^5.9.5",
     "single-spa-layout": "^2.2.0"
   },

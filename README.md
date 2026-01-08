@@ -64,6 +64,12 @@ O ponto de entrada da aplicação. Contém:
 - Exibe logo animado do ByteBank durante carregamento
 - Oculto automaticamente após Single-SPA inicializar
 
+### Observações sobre ajustes recentes
+- O `index.html` do `root-config` constrói o `importmap` em runtime e permite que `window.__BYTEBANK_IMPORTMAP__` sobrescreva o mapa para ambientes de deploy (útil para apontar MFEs para URLs externas em produção).
+- Exponibilizamos `window.__BYTEBANK_API_BASE__` e `window.__BYTEBANK_ASSET_BASE__` como variáveis globais de runtime para configurar base de APIs e assets sem recompilar os MFEs.
+- Predicados de rota e `createDomGetter` foram movidos para `@bytebank/shared` quando aplicável, reduzindo duplicação entre MFEs.
+
+
 ### `src/bytebank-root-config.ts`
 Arquivo de configuração principal do Single-SPA:
 

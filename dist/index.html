@@ -5,8 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ByteBank - Seu banco digital</title>
   
-  <!-- Import Map para os microfrontends -->
-
+  <!-- Import Map para os microfrontends (built at runtime so deployment can inject alternate URLs) -->
+  <script>
+    (function(){
+      const importmap = window.__BYTEBANK_IMPORTMAP__ || {
+        imports: {
+          "single-spa": "https://ga.jspm.io/npm:single-spa@5.9.5/lib/esm/single-spa.min.js",
+          "single-spa-react": "https://ga.jspm.io/npm:single-spa-react@5.1.4/lib/esm/single-spa-react.js",
+          "react": "https://ga.jspm.io/npm:react@18.2.0/index.js",
+          "react-dom": "https://ga.jspm.io/npm:react-dom@18.2.0/index.js",
+          "react-dom/client": "https://ga.jspm.io/npm:react-dom@18.2.0/client.js",
+          "react/jsx-runtime": "https://ga.jspm.io/npm:react@18.2.0/jsx-runtime.js",
+          "scheduler": "https://ga.jspm.io/npm:scheduler@0.23.0/index.js",
+          "@bytebank/base": "http://localhost:9001/bytebank-base.js",
+          "@bytebank/financeiro": "http://localhost:9002/bytebank-financeiro.js",
+          "@bytebank/dashboard": "http://localhost:9003/bytebank-dashboard.js"
+        }
+      };
+      const script = document.createElement('script');
+      script.type = 'importmap';
+      script.textContent = JSON.stringify(importmap, null, 2);
+      document.head.appendChild(script);
+    })();
+  </script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,175 +40,27 @@
       background-color: #f5f5f5;
       -webkit-font-smoothing: antialiased;
     }
-    
-    /* ByteBank Design Tokens */
-    :root {
-      --bytebank-green: #47A138;
-      --bytebank-green-dark: #3a8a2e;
-      --bytebank-green-light: #59b449;
-      --bytebank-black: #000000;
-      --bytebank-gray: #CCCCCC;
-      --bytebank-gray-light: #e4e1e1;
-      --bytebank-gray-medium: #666666;
-    }
-    
-    /* Loading State */
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
-    }
-    
-    .loading-logo {
-      width: 80px;
-      height: 80px;
-      background: var(--bytebank-green);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      animation: pulse 2s infinite;
-    }
-    
-    .loading-logo span {
-      font-size: 40px;
-      font-weight: 700;
-      color: white;
-    }
-    
-    .loading-text {
-      color: white;
-      font-size: 18px;
-      font-weight: 500;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.8; }
-    }
 
-    /* Home Page Styles */
-    .home-container {
-      display: none;
-      min-height: calc(100vh - 64px);
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      padding: 48px 24px;
-    }
-    
-    .home-content {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    .home-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #000;
-      margin-bottom: 16px;
-    }
-    
-    .home-subtitle {
-      font-size: 1.25rem;
-      color: #666;
-      margin-bottom: 48px;
-    }
-    
-    .home-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 24px;
-      margin-top: 32px;
-    }
-    
-    .home-card {
-      background: white;
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-    }
-    
-    .home-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-    }
-    
-    .home-card-icon {
-      width: 64px;
-      height: 64px;
-      background: var(--bytebank-green);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 28px;
-    }
-    
-    .home-card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #000;
-      margin-bottom: 8px;
-    }
-    
-    .home-card-description {
-      font-size: 0.875rem;
-      color: #666;
-    }
+    /* Minimal tokens */
+    :root { --bytebank-green: #47A138; }
+
+    /* Loading State (kept minimal) */
+    .loading-container { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; background:linear-gradient(135deg,#000 0%,#1a1a1a 100%);} 
+    .loading-logo { width:80px; height:80px; background:var(--bytebank-green); border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:24px; }
+    .loading-logo span { font-size:40px; font-weight:700; color:white; }
+    .loading-text { color:white; font-size:18px; font-weight:500; }
   </style>
-  <script type="importmap">
-    {
-      "imports": {
-        "single-spa": "https://ga.jspm.io/npm:single-spa@5.9.5/lib/esm/single-spa.min.js",
-        "single-spa-react": "https://ga.jspm.io/npm:single-spa-react@5.1.4/lib/esm/single-spa-react.js",
-        "react": "https://ga.jspm.io/npm:react@18.2.0/index.js",
-        "react-dom": "https://ga.jspm.io/npm:react-dom@18.2.0/index.js",
-        "react-dom/client": "https://ga.jspm.io/npm:react-dom@18.2.0/client.js",
-        "react/jsx-runtime": "https://ga.jspm.io/npm:react@18.2.0/jsx-runtime.js",
-        "scheduler": "https://ga.jspm.io/npm:scheduler@0.23.0/index.js",
-        "@bytebank/base": "http://localhost:9001/bytebank-base.js",
-        "@bytebank/financeiro": "http://localhost:9002/bytebank-financeiro.js",
-        "@bytebank/dashboard": "http://localhost:9003/bytebank-dashboard.js"
-      }
-    }
-  </script>
   <script type="module" crossorigin src="/bytebank-root-config.js"></script>
 </head>
 <body>
   <!-- Navbar será montada pela aplicação global @bytebank/base -->
   <nav id="navbar"></nav>
   
-  <!-- Home Page (mostrada apenas na rota /) -->
-  <div id="home-page" class="home-container">
-    <div class="home-content">
-      <h1 class="home-title">🏦 Bem-vindo ao ByteBank</h1>
-      <p class="home-subtitle">Sua plataforma financeira digital completa</p>
-      
-      <div class="home-cards">
-        <a href="/dashboard" class="home-card" onclick="navigateTo('/dashboard'); return false;">
-          <div class="home-card-icon">📊</div>
-          <h3 class="home-card-title">Dashboard</h3>
-          <p class="home-card-description">Visualize seus gráficos e análises financeiras</p>
-        </a>
-        
-        <a href="/financeiro" class="home-card" onclick="navigateTo('/financeiro'); return false;">
-          <div class="home-card-icon">💰</div>
-          <h3 class="home-card-title">Financeiro</h3>
-          <p class="home-card-description">PIX, DOC, Saque e Extrato de transações</p>
-        </a>
-      </div>
-    </div>
-  </div>
-  
+  <!-- Mount point for the base microfrontend (global header/footer + routes) -->
+  <main id="single-spa-application:@bytebank/base"></main>
+
+  <!-- The home page content is provided by the @bytebank/base microfrontend. -->
+
   <!-- Container para os microfrontends -->
   <main id="single-spa-application:@bytebank/financeiro"></main>
   <main id="single-spa-application:@bytebank/dashboard"></main>
@@ -200,27 +73,7 @@
     <p class="loading-text">Carregando ByteBank...</p>
   </div>
 
-  <script>
-    // Navegação SPA
-    function navigateTo(path) {
-      window.history.pushState({}, '', path);
-      window.dispatchEvent(new PopStateEvent('popstate'));
-      updateHomeVisibility();
-    }
-    
-    // Controla visibilidade da Home
-    function updateHomeVisibility() {
-      const homePage = document.getElementById('home-page');
-      if (homePage) {
-        homePage.style.display = window.location.pathname === '/' ? 'block' : 'none';
-      }
-    }
-    
-    // Atualiza ao carregar e ao navegar
-    window.addEventListener('popstate', updateHomeVisibility);
-    window.addEventListener('single-spa:routing-event', updateHomeVisibility);
-    document.addEventListener('DOMContentLoaded', updateHomeVisibility);
-  </script>
+  <!-- Navigation is handled by single-spa and the microfrontends. Root only provides mount points. -->
 
 </body>
 </html>

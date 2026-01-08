@@ -1,25 +1,7 @@
 import { registerApplication, start } from 'single-spa';
+import { isHomeActive, isDashboardActive, isFinanceiroActive } from '@bytebank/shared';
 
 console.log('🟢 Root Config - Inicializando...');
-
-// Função para verificar se está na Home (apenas rota raiz exata)
-function isHomeActive(location: Location): boolean {
-  return location.pathname === '/';
-}
-
-// Função para verificar se está na rota do dashboard
-function isDashboardActive(location: Location): boolean {
-  const path = location.pathname;
-  return path === '/dashboard' || path.startsWith('/dashboard/');
-}
-
-// Função para verificar se está na rota do financeiro
-function isFinanceiroActive(location: Location): boolean {
-  const path = location.pathname;
-  return path === '/financeiro' || path.startsWith('/financeiro/') ||
-         path === '/transacoes' || path.startsWith('/transacoes/') ||
-         path === '/extrato' || path.startsWith('/extrato/');
-}
 
 // Registra a aplicação global (navbar) - sempre ativa
 registerApplication({
