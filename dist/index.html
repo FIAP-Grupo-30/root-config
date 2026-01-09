@@ -8,7 +8,19 @@
   <!-- Import Map para os microfrontends (built at runtime so deployment can inject alternate URLs) -->
   <script>
     (function(){
-      const importmap = window.__BYTEBANK_IMPORTMAP__ || {
+      // Try runtime override, then try public/importmap.json (generated at build by script), then fallback to defaults
+      const importmap = window.__BYTEBANK_IMPORTMAP__ || (function(){
+        try{
+          // attempt to synchronously fetch public/importmap.json via XHR for simplicity
+          var req = new XMLHttpRequest();
+          req.open('GET','/importmap.json',false);
+          req.send(null);
+          if(req.status === 200){
+            return JSON.parse(req.responseText);
+          }
+        }catch(e){ }
+        return null;
+      })() || {
         imports: {
           "single-spa": "https://ga.jspm.io/npm:single-spa@5.9.5/lib/esm/single-spa.min.js",
           "single-spa-react": "https://ga.jspm.io/npm:single-spa-react@5.1.4/lib/esm/single-spa-react.js",
@@ -28,6 +40,10 @@
       document.head.appendChild(script);
     })();
   </script>
+  <script>
+    // Definir valores de runtime para assets e API com fallbacks robustos
+    (function(){
+      // Tenta obter importmap a partir da variável global ou do elemento
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,6 +66,43 @@
     .loading-logo span { font-size:40px; font-weight:700; color:white; }
     .loading-text { color:white; font-size:18px; font-weight:500; }
   </style>
+ <script type="importmap">
+      var importmap = window.__BYTEBANK_IMPORTMAP__ || (function(){
+        var s = document.querySelector('script[type="importmap"]');
+        if(!s) return null;
+        try{ return JSON.parse(s.textContent); } catch(e){ return null; }
+      })();
+
+      function getImportUrl(name){
+        return importmap && importmap.imports && importmap.imports[name];
+      }
+
+      // Prefer the @bytebank/base mapping, then financeiro, then dashboard
+      var candidate = getImportUrl('@bytebank/base') || getImportUrl('@bytebank/financeiro') || getImportUrl('@bytebank/dashboard');
+
+      if(!window.__BYTEBANK_ASSET_BASE__) {
+        if(candidate){
+          // Remove filename from URL (e.g. https://host/bytebank-base.js -> https://host)
+          try{
+            var url = new URL(candidate, window.location.href);
+            // strip the last path segment (the JS filename)
+            var parts = url.pathname.split('/'); parts.pop();
+            url.pathname = parts.join('/') || '/';
+            window.__BYTEBANK_ASSET_BASE__ = url.origin + url.pathname.replace(/\/$/, '');
+          }catch(e){
+            window.__BYTEBANK_ASSET_BASE__ = window.location.origin;
+          }
+        } else {
+          window.__BYTEBANK_ASSET_BASE__ = window.location.origin;
+        }
+      }
+
+      if(!window.__BYTEBANK_API_BASE__) {
+        // Por default, use a URL de produção se não houver override
+        window.__BYTEBANK_API_BASE__ = 'https://tech-challenge-2-production.up.railway.app';
+      }
+    })();
+  </script>
   <script type="module" crossorigin src="/bytebank-root-config.js"></script>
 </head>
 <body>
