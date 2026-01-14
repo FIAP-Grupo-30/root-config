@@ -83,8 +83,8 @@ HTML principal simplificado contendo apenas:
 - Container `#root` para React
 - Script para importar `main.tsx`
 
-### `tailwind.config.js`
-Configuração do Tailwind CSS com tema customizado ByteBank (cores, tipografia).
+### Tailwind CSS v4
+O Tailwind CSS é configurado via plugin Vite (`@tailwindcss/vite`) no `vite.config.ts`. Não há necessidade de `tailwind.config.js` - as configurações são feitas via CSS usando `@theme` se necessário.
 
 ### `biome.json`
 Configuração do BiomeJS para lint e formatação de código.
@@ -209,22 +209,24 @@ npm run check     # Executa lint + format
 ### Produção
 ```json
 {
-  "react": "^18.2.0",
-  "react-dom": "^18.2.0",
-  "react-router-dom": "^6.30.2",
-  "@bytebank/shared": "git+https://github.com/FIAP-Grupo-30/shared.git"
+  "react": "^19.2.3",
+  "react-dom": "^19.2.3",
+  "react-router-dom": "^7.12.0"
 }
 ```
 
 ### Desenvolvimento
 ```json
 {
-  "vite": "^5.1.0",
-  "@originjs/vite-plugin-federation": "^1.3.5",
-  "@vitejs/plugin-react": "^4.2.1",
-  "tailwindcss": "^3.4.19",
-  "@biomejs/biome": "^1.9.4",
-  "typescript": "^5.3.3"
+  "vite": "^7.3.1",
+  "@originjs/vite-plugin-federation": "^1.4.1",
+  "@vitejs/plugin-react": "^5.1.2",
+  "@tailwindcss/vite": "^4.1.18",
+  "tailwindcss": "^4.1.18",
+  "@biomejs/biome": "^2.3.11",
+  "@types/react": "^19.2.8",
+  "@types/react-dom": "^19.2.3",
+  "typescript": "^5.9.3"
 }
 ```
 
@@ -260,8 +262,8 @@ cd tech-challenge-2-dashboard && npm run dev
 **Causa:** Tailwind CSS não está compilando corretamente.
 
 **Solução:**
-1. Verificar se `tailwind.config.js` está configurado corretamente
-2. Verificar se `src/index.css` importa as diretivas do Tailwind
+1. Verificar se o plugin `@tailwindcss/vite` está configurado no `vite.config.ts`
+2. Verificar se `src/index.css` importa `@import 'tailwindcss';`
 3. Limpar cache: `rm -rf node_modules/.vite`
 
 ## 📈 Melhorias Futuras
