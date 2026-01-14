@@ -1,6 +1,5 @@
 import { Suspense, lazy } from 'react';
 
-// Lazy load dos microfrontends via Module Federation
 const BaseApp = lazy(() => import('@bytebank/base/bytebank-base'));
 
 function LoadingFallback() {
@@ -15,7 +14,6 @@ function LoadingFallback() {
 }
 
 function App() {
-  // BaseApp já gerencia o roteamento e carrega os outros microfrontends
   return (
     <Suspense fallback={<LoadingFallback />}>
       <BaseApp />
