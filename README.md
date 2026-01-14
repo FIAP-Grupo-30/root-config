@@ -89,6 +89,31 @@ Configuração do Tailwind CSS com tema customizado ByteBank (cores, tipografia)
 ### `biome.json`
 Configuração do BiomeJS para lint e formatação de código.
 
+### `types.d.ts`
+Arquivo de declaração de tipos TypeScript para os módulos federados. Define as tipagens para os imports dos microfrontends remotes:
+
+```typescript
+declare module '@bytebank/base/bytebank-base' {
+  import type { ComponentType } from 'react';
+  const BaseApp: ComponentType;
+  export default BaseApp;
+}
+
+declare module '@bytebank/financeiro/bytebank-financeiro' {
+  import type { ComponentType } from 'react';
+  const FinanceiroApp: ComponentType;
+  export default FinanceiroApp;
+}
+
+declare module '@bytebank/dashboard/bytebank-dashboard' {
+  import type { ComponentType } from 'react';
+  const DashboardApp: ComponentType;
+  export default DashboardApp;
+}
+```
+
+Este arquivo permite que o TypeScript reconheça os módulos federados e forneça autocompletar e verificação de tipos adequados.
+
 ## 🔄 Fluxo de Execução
 
 ```
