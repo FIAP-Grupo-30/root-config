@@ -8,7 +8,9 @@
   },
   "scripts": {
     "dev": "vite --open",
+    "federation": "concurrently \"npm run build:watch\" \"npm run preview\"",
     "build": "vite build",
+    "build:watch": "vite build --watch",
     "preview": "vite preview",
     "lint": "biome lint .",
     "format": "biome format --write .",
@@ -26,6 +28,7 @@
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
+    "concurrently": "^9.2.1",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"

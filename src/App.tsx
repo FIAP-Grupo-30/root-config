@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 
-const BaseApp = lazy(() => import('@bytebank/base/bytebank-base'));
+const BaseApp = lazy(() => import('@bytebank/dashboard/bytebank-dashboard'));
 
 function LoadingFallback() {
   return (
