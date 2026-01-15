@@ -52,17 +52,21 @@ Ponto de entrada da aplicação React. Renderiza o componente App.
 Componente principal que carrega o BaseApp via Module Federation usando lazy loading.
 
 ### `src/index.css`
-Estilos globais e diretivas do Tailwind CSS. Contém variáveis CSS do design system ByteBank.
+Estilos globais com Tailwind CSS v4. Usa `@import "tailwindcss"` para importar o Tailwind. Contém variáveis CSS do design system ByteBank.
 
 ### `vite.config.ts`
-Configuração do Vite com Module Federation:
+Configuração do Vite com Module Federation e Tailwind CSS v4:
 
 ```typescript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import federation from '@originjs/vite-plugin-federation';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [
     react(),
+    tailwindcss(),
     federation({
       name: 'root_config',
       remotes: {
@@ -73,6 +77,9 @@ export default defineConfig({
       shared: ['react', 'react-dom', 'react-router-dom'],
     }),
   ],
+  server: {
+    port: 9000,
+  },
 });
 ```
 
@@ -183,19 +190,25 @@ Classes Tailwind disponíveis:
 ```bash
 npm run dev
 ```
-Inicia o servidor de desenvolvimento na porta 9000.
+Inicia o servidor de desenvolvimento na porta 9000 e abre o navegador automaticamente.
 
 ### Build
 ```bash
-npm run build
+npm run build        # Build de produção
+npm run build:watch # Build em modo watch (para desenvolvimento com Module Federation)
 ```
-Cria build de produção na pasta `dist/`.
 
 ### Preview
 ```bash
 npm run preview
 ```
 Serve o build de produção para testes.
+
+### Module Federation (Desenvolvimento)
+```bash
+npm run federation
+```
+Executa build em watch mode e preview simultaneamente. Útil para testar Module Federation localmente.
 
 ### Linting e Formatação
 ```bash
@@ -226,9 +239,18 @@ npm run check     # Executa lint + format
   "@biomejs/biome": "^2.3.11",
   "@types/react": "^19.2.8",
   "@types/react-dom": "^19.2.3",
+  "concurrently": "^9.2.1",
   "typescript": "^5.9.3"
 }
 ```
+
+**Principais tecnologias:**
+- **React 19**: Framework UI
+- **Vite 7**: Build tool e dev server
+- **Tailwind CSS v4**: Framework CSS (via plugin Vite)
+- **Module Federation**: Microfrontends
+- **BiomeJS 2.3**: Linter e formatter
+- **TypeScript 5.9**: Tipagem estática
 
 ## 🔍 Troubleshooting
 
@@ -259,12 +281,13 @@ cd tech-challenge-2-dashboard && npm run dev
 3. Verificar console do navegador para erros específicos
 
 ### Problema: Estilos não aplicados
-**Causa:** Tailwind CSS não está compilando corretamente.
+**Causa:** Tailwind CSS v4 não está compilando corretamente.
 
 **Solução:**
 1. Verificar se o plugin `@tailwindcss/vite` está configurado no `vite.config.ts`
-2. Verificar se `src/index.css` importa `@import 'tailwindcss';`
+2. Verificar se `src/index.css` importa `@import "tailwindcss";`
 3. Limpar cache: `rm -rf node_modules/.vite`
+4. Verificar se `tailwindcss` e `@tailwindcss/vite` estão instalados
 
 ## 📈 Melhorias Futuras
 
@@ -299,8 +322,8 @@ Implementar estratégia de versionamento para remotes em produção.
 
 - [Module Federation Documentation](https://module-federation.io/)
 - [Vite Documentation](https://vitejs.dev/)
-- [React Documentation](https://react.dev/)
-- [Tailwind CSS Documentation](https://tailwindcss.com/)
+- [React 19 Documentation](https://react.dev/)
+- [Tailwind CSS v4 Documentation](https://tailwindcss.com/docs)
 - [BiomeJS Documentation](https://biomejs.dev/)
 
 ## 🔧 Gerenciamento de Versões
@@ -313,6 +336,24 @@ Para configurar o ambiente:
 asdf install nodejs 24.12.0
 asdf local nodejs 24.12.0
 ```
+
+## 🆕 Tecnologias e Versões
+
+### Stack Principal
+- **React 19.2.3**: Framework UI com novas features e melhorias de performance
+- **Vite 7.3.1**: Build tool de próxima geração com HMR ultra-rápido
+- **Tailwind CSS v4.1.18**: Framework CSS com plugin Vite nativo
+- **TypeScript 5.9.3**: Tipagem estática
+- **BiomeJS 2.3.11**: Linter e formatter moderno e rápido
+
+### Module Federation
+- **@originjs/vite-plugin-federation 1.4.1**: Plugin para Module Federation no Vite
+
+### Características do Tailwind CSS v4
+- Configuração via plugin Vite (`@tailwindcss/vite`)
+- Não requer `tailwind.config.js` (configuração via CSS com `@theme`)
+- Importação simplificada: `@import "tailwindcss";`
+- Melhor performance e menor bundle size
 
 ## 👥 Equipe
 
