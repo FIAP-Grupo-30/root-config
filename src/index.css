@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background-color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Variáveis CSS ByteBank */
+:root {
+  --bytebank-green: #47a138;
+  --bytebank-green-dark: #3a8a2e;
+  --bytebank-green-light: #59b449;
+  --bytebank-black: #000000;
+  --bytebank-gray: #cccccc;
+  --bytebank-gray-light: #e4e1e1;
+  --bytebank-gray-medium: #666666;
+}

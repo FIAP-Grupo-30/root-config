@@ -3,20 +3,35 @@
   "version": "1.0.0",
   "description": "Root Config para orquestrar os microfrontends ByteBank",
   "type": "module",
+  "engines": {
+    "node": ">=24.12.0"
+  },
   "scripts": {
-    "dev": "vite --port 9000 --open",
-    "prebuild": "node scripts/generate-importmap.cjs",
+    "dev": "vite --open",
+    "federation": "concurrently \"npm run build:watch\" \"npm run preview\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "build:watch": "vite build --watch",
+    "preview": "vite preview",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check ."
   },
   "dependencies": {
-    "@bytebank/shared": "git+https://github.com/FIAP-Grupo-30/shared.git",
-    "single-spa": "^5.9.5",
-    "single-spa-layout": "^2.2.0"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.12.0"
   },
   "devDependencies": {
-    "vite": "^5.1.0",
-    "vite-plugin-single-spa": "^0.8.0"
+    "@biomejs/biome": "^2.3.11",
+    "@originjs/vite-plugin-federation": "^1.4.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "concurrently": "^9.2.1",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
   },
   "author": "FIAP Grupo 30",
   "license": "MIT"
