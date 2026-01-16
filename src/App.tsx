@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 
-// const BaseApp = lazy(() => import('@bytebank/base/bytebank-base'));
+const BaseApp = lazy(() => import('@bytebank/base/bytebank-base'));
 const DashboardApp = lazy(() => import('@bytebank/dashboard/bytebank-dashboard'));
 const FinanceiroApp = lazy(() => import('@bytebank/financeiro/bytebank-financeiro'));
 
@@ -18,7 +18,7 @@ function LoadingFallback() {
 function App() {
   return (
     <Suspense fallback={<LoadingFallback />}>
-      {/* <BaseApp /> */}
+      <BaseApp />
       <DashboardApp />
       <FinanceiroApp />
     </Suspense>
