@@ -1,11 +1,17 @@
 import { create } from "zustand";
+import { createAuthSlice, type AuthSlice } from "./slices/authSlice";
+import {
+	createTransactionSlice,
+	type TransactionSlice,
+} from "./slices/transactionSlice";
+import { createAccountSlice, type AccountSlice } from "./slices/accountSlice";
 
-export type Store = {
-	count: number;
-	inc: () => void;
-};
+export type RootState = AuthSlice & TransactionSlice & AccountSlice;
 
-export const useStore = create<Store>((set) => ({
-	count: 1,
-	inc: () => set((state) => ({ count: state.count + 1 })),
+export const useStore = create<RootState>()((...a) => ({
+	...createAuthSlice(...a),
+	...createTransactionSlice(...a),
+	...createAccountSlice(...a),
 }));
+
+export default useStore;
