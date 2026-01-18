@@ -4,11 +4,11 @@ const BaseApp = lazy(() => import("@bytebank/base/bytebank-base"));
 
 function LoadingFallback() {
 	return (
-		<div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-black to-gray-900">
-			<div className="w-20 h-20 bg-[#47A138] rounded-2xl flex items-center justify-center mb-6">
-				<span className="text-4xl font-bold text-white">B</span>
+		<div className="root:flex root:flex-col root:items-center root:justify-center root:min-h-screen root:bg-gradient-to-br root:from-black root:to-gray-900">
+			<div className="root:w-20 root:h-20 root:bg-[#47A138] root:rounded-2xl root:flex root:items-center root:justify-center root:mb-6">
+				<span className="root:text-4xl root:font-bold root:text-white">B</span>
 			</div>
-			<p className="text-white text-lg font-medium">Carregando ByteBank...</p>
+			<p className="root:text-white root:text-lg root:font-medium">Carregando ByteBank...</p>
 		</div>
 	);
 }
