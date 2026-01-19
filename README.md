@@ -419,7 +419,7 @@ asdf local nodejs 24.12.0
 - Importação simplificada: `@import "tailwindcss";`
 - Melhor performance e menor bundle size
 
-### Plataforma de hospedagem
+## 🛠️ Plataforma de hospedagem
 
 Vercel - https://vercel.com/
 
